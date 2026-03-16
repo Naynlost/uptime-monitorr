@@ -59,7 +59,7 @@ const Dashboard = () => {
     };
 
     fetchMonitors();
-    const socket = io('http://localhost:5000');
+      const socket = io(import.meta.env.VITE_API_URL ? 'https://uptime-monitor-bc1i.onrender.com' : 'http://localhost:5000');
 
     socket.on('newPingResult', (data) => {
       setMonitors(prev => prev.map(m => {
