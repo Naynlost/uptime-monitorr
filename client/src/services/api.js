@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://uptime-monitor-bc1i.onrender.com/login',
+  baseURL: import.meta.env.VITE_API_URL || 'https://uptime-monitor-bc1i.onrender.com/api',
 });
 
 API.interceptors.request.use((req) => {
