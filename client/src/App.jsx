@@ -15,7 +15,6 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
-          {/* 2. Register rotasını buraya ekle */}
           <Route path="/register" element={<Register />} /> 
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/" element={<Navigate to="/dashboard" />} />

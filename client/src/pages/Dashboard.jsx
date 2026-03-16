@@ -30,15 +30,13 @@ const calculateUptime = (logs) => {
 const Dashboard = () => {
   const [monitors, setMonitors] = useState([]);
   const [newMonitor, setNewMonitor] = useState({ name: '', url: '', interval: 1 });
-  
-  // GECE/GÜNDÜZ MODU STATE'İ (Kullanıcının tercihini hatırlar)
+
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem('theme') === 'dark';
   });
 
   const { logout } = useAuth();
 
-  // THEME (TEMA) DEĞİŞTİRİCİ
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
@@ -105,13 +103,10 @@ const Dashboard = () => {
   const offlineMonitors = monitors.filter(m => m.lastStatus === false).length;
 
   return (
-    // Ana arka plan ve metin renkleri dark modda değişiyor
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 p-6 md:p-10 font-sans text-slate-800 dark:text-slate-100 transition-colors duration-300">
       
-      {/* HEADER */}
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
         
-        {/* SOL KISIM: Logo, Başlık ve Canlı Durum */}
         <div className="flex items-center gap-4">
           <div className="bg-gradient-to-br from-blue-500 to-blue-700 p-3 rounded-2xl shadow-lg shadow-blue-500/30">
             <Activity size={28} className="text-white" />
@@ -121,7 +116,6 @@ const Dashboard = () => {
               Uptime Dashboard
             </h1>
             <div className="flex items-center gap-2 mt-1.5">
-              {/* Yanıp sönen canlı kayıt noktası (Senior dokunuşu) */}
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
@@ -133,7 +127,6 @@ const Dashboard = () => {
           </div>
         </div>
         
-        {/* SAĞ KISIM: Butonlar */}
         <div className="flex items-center gap-3 w-full md:w-auto">
           <button 
             onClick={() => setIsDarkMode(!isDarkMode)}
@@ -152,7 +145,6 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* İSTATİSTİK BARÜ */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border-b-4 border-blue-500 text-center transition-colors">
           <p className="text-slate-500 dark:text-slate-400 text-xs font-bold tracking-wider mb-2">TOPLAM İZLEME</p>
@@ -167,8 +159,6 @@ const Dashboard = () => {
           <h2 className="text-4xl font-extrabold text-rose-500 dark:text-rose-400">{offlineMonitors}</h2>
         </div>
       </div>
-
-      {/* ADD MONITOR FORM */}
       <section className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm mb-10 border border-slate-100 dark:border-slate-700 transition-colors">
         <h3 className="flex items-center gap-2 text-lg font-bold text-slate-800 dark:text-white mb-6">
           <Plus size={20} className="text-blue-500" /> Yeni İzleyici Tanımla
@@ -200,8 +190,6 @@ const Dashboard = () => {
           </button>
         </form>
       </section>
-
-      {/* MONITOR GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         {monitors.map(monitor => {
           const uptimePercent = calculateUptime(monitor.logs);
@@ -224,8 +212,6 @@ const Dashboard = () => {
                     <Activity size={20} className={monitor.lastStatus ? 'text-emerald-500 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400'} />
                   </div>
                 </div>
-
-                {/* CHART */}
                 <div className="h-32 w-full my-6">
                   <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 mb-2 tracking-wide">TEPKİ SÜRESİ (ms)</p>
                   <ResponsiveContainer width="100%" height="100%">
@@ -255,7 +241,6 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* FOOTER */}
               <div className="flex justify-between items-center pt-5 mt-2 border-t border-slate-100 dark:border-slate-700">
                 <div className="flex items-center gap-3">
                   <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${monitor.lastStatus ? 'bg-emerald-50 dark:bg-emerald-900/30' : 'bg-rose-50 dark:bg-rose-900/30'}`}>
