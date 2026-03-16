@@ -8,11 +8,11 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid()) 
-  email     String    @unique
+  id        String   @id @default(uuid()) 
+  email     String   @unique
   password  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt /
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   monitors  Monitor[]
 }
 
@@ -23,7 +23,7 @@ model Monitor {
   name        String
   url         String
   method      String    @default("GET")
-  interval    Int       @default(5) // Dakika cinsinden
+  interval    Int       @default(5)
   isActive    Boolean   @default(true)
   lastStatus  Boolean?  
   createdAt   DateTime  @default(now())
@@ -36,7 +36,6 @@ model Monitor {
 model PingLog {
   id           String   @id @default(uuid())
   monitorId    String
-  // onDelete: Cascade zaten vardı, bu doğru.
   monitor      Monitor  @relation(fields: [monitorId], references: [id], onDelete: Cascade)
   status       Int
   responseTime Int
