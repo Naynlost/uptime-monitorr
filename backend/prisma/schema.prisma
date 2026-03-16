@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid()) 
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt /
+  monitors  Monitor[]
+}
+
+model Monitor {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  url         String
+  method      String    @default("GET")
+  interval    Int       @default(5) // Dakika cinsinden
+  isActive    Boolean   @default(true)
+  lastStatus  Boolean?  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  logs        PingLog[]
+
+  @@index([userId])
+}
+
+model PingLog {
+  id           String   @id @default(uuid())
+  monitorId    String
+  // onDelete: Cascade zaten vardı, bu doğru.
+  monitor      Monitor  @relation(fields: [monitorId], references: [id], onDelete: Cascade)
+  status       Int
+  responseTime Int
+  isUp         Boolean
+  createdAt    DateTime @default(now())
+
+  @@index([monitorId])
+}
